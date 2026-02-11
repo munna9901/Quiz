@@ -4,7 +4,9 @@
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>ইনফিনিটি কুইজ মাস্টার</title>  
-    
+    <meta name="description" content="বাংলা কুইজ গেম - সাধারণ জ্ঞান ও বুদ্ধিমত্তা যাচাই।">
+
+    <!-- Google AdSense Code -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5812280411788246"
      crossorigin="anonymous"></script>
 
@@ -14,7 +16,6 @@
         :root {  
             --primary: #FFD700; /* Gold */  
             --secondary: #000000; /* Black */  
-            --accent: #FF4757; /* Red */  
             --bg-color: #f1f2f6;  
             --shadow: 4px;  
         }  
@@ -35,7 +36,7 @@
             min-height: 100vh;  
         }  
   
-        /* Mobile Container */  
+        /* App Container */  
         .app {  
             width: 100%;  
             max-width: 400px;  
@@ -43,23 +44,12 @@
             max-height: 800px;  
             background-color: var(--primary);  
             border: 5px solid var(--secondary);  
-            border-radius: 20px; /* Mobile rounded corners */  
+            border-radius: 20px;  
             position: relative;  
             overflow: hidden;  
             display: flex;  
             flex-direction: column;  
             box-shadow: 10px 10px 30px rgba(0,0,0,0.3);  
-        }  
-  
-        /* Pattern Overlay */  
-        .app::before {  
-            content: '';  
-            position: absolute;  
-            top: 0; left: 0; width: 100%; height: 100%;  
-            background-image: radial-gradient(var(--secondary) 15%, transparent 16%);  
-            background-size: 20px 20px;  
-            opacity: 0.1;  
-            pointer-events: none;  
         }  
   
         /* Screens */  
@@ -71,20 +61,117 @@
             align-items: center;  
             justify-content: center;  
             padding: 20px;  
-            transition: transform 0.4s ease-in-out;  
+            transition: transform 0.3s ease-in-out;  
             background: var(--primary);  
             z-index: 10;  
-        }  
+        }
+
+        /* Scrollable Screen for Articles */
+        .screen.scrollable {
+            justify-content: flex-start;
+            overflow-y: auto;
+            background: white; 
+            z-index: 50; 
+        }
   
-        .screen.hidden {  
-            transform: translateX(100%);  
-        }  
+        .screen.hidden { transform: translateX(100%); }  
+        .screen.active { transform: translateX(0%); }  
   
-        .screen.active {  
-            transform: translateX(0);  
-        }  
-  
-        /* UI Elements */  
+        /* --- COMPACT MENU STYLES (UPDATED) --- */
+        .menu-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--secondary);
+            color: var(--primary);
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 2px 2px 0 white;
+            transition: 0.2s;
+        }
+
+        .menu-btn:active { transform: scale(0.95); }
+
+        .menu-overlay {
+            position: absolute;
+            top: 0; 
+            right: 0; 
+            width: 70%; /* ছোট করা হয়েছে (মাত্র ৭০% জায়গা নেবে) */
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 90;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* বাম দিকে এলাইন */
+            padding: 60px 20px 20px 30px;
+            transform: translateX(100%); /* ডান দিকে লুকানো */
+            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+        }
+
+        .menu-overlay.open {
+            transform: translateX(0); /* স্লাইড করে আসবে */
+        }
+
+        .menu-item {
+            color: #ccc;
+            font-size: 1.1rem; /* ফন্ট ছোট করা হয়েছে */
+            margin: 12px 0;
+            cursor: pointer;
+            font-family: 'Baloo Da 2';
+            border-bottom: 1px solid #333;
+            width: 100%;
+            padding-bottom: 5px;
+            transition: 0.2s;
+        }
+
+        .menu-item:hover {
+            color: var(--primary);
+            border-bottom: 1px solid var(--primary);
+            padding-left: 5px;
+        }
+        
+        .menu-close-x {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* --- ARTICLE CONTENT --- */
+        .article-content {
+            width: 100%;
+            text-align: left;
+            user-select: text; 
+            padding-bottom: 40px;
+            padding-top: 10px;
+        }
+
+        .article-content h2 { margin-bottom: 15px; color: #222; font-family: 'Baloo Da 2'; border-bottom: 3px solid var(--primary); display: inline-block; font-size: 1.5rem; }
+        .article-content h3 { margin-top: 20px; margin-bottom: 5px; color: #444; font-size: 1.1rem; }
+        .article-content p { margin-bottom: 10px; line-height: 1.5; color: #333; font-size: 0.95rem; }
+        
+        .close-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 50px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 2px 2px 0 black;
+            font-size: 0.9rem;
+        }
+
+        /* --- GAME UI --- */
         .badge {  
             background: var(--secondary);  
             color: white;  
@@ -98,98 +185,37 @@
         .question-card {  
             background: white;  
             width: 100%;  
-            min-height: 150px;  
+            min-height: 140px;  
             border: 3px solid var(--secondary);  
             border-radius: 15px;  
-            padding: 20px;  
+            padding: 15px;  
             display: flex;  
             align-items: center;  
             justify-content: center;  
             text-align: center;  
-            margin-bottom: 20px;  
+            margin-bottom: 15px;  
             box-shadow: var(--shadow) var(--shadow) 0px var(--secondary);  
-            position: relative;  
         }  
   
-        .question-text {  
-            font-size: 1.3rem;  
-            font-weight: 700;  
-            line-height: 1.4;  
-            color: #333;  
-        }  
+        .question-text { font-size: 1.2rem; font-weight: 700; color: #333; }  
   
-        .options-grid {  
-            display: grid;  
-            grid-template-columns: 1fr 1fr;  
-            gap: 12px;  
-            width: 100%;  
-        }  
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }  
   
         .opt-btn {  
-            background: white;  
-            border: 3px solid var(--secondary);  
-            padding: 15px 5px;  
-            border-radius: 10px;  
-            font-weight: 600;  
-            font-size: 1rem;  
-            cursor: pointer;  
-            box-shadow: 3px 3px 0px var(--secondary);  
-            transition: transform 0.1s;  
-            display: flex;  
-            justify-content: center;  
-            align-items: center;  
-            text-align: center;  
+            background: white; border: 3px solid var(--secondary); padding: 12px 5px;  
+            border-radius: 10px; font-weight: 600; font-size: 0.95rem; cursor: pointer;  
+            box-shadow: 3px 3px 0px var(--secondary); display: flex; justify-content: center; align-items: center; text-align: center;  
         }  
-  
-        .opt-btn:active {  
-            transform: translate(2px, 2px);  
-            box-shadow: 1px 1px 0px var(--secondary);  
-        }  
-  
+        .opt-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0px var(--secondary); }  
         .opt-btn.correct { background: #2ed573; color: white; border-color: #2ed573; }  
         .opt-btn.wrong { background: #ff4757; color: white; border-color: #ff4757; }  
   
-        /* Typography */  
-        h1 {  
-            font-family: 'Baloo Da 2';  
-            font-size: 3.5rem;  
-            line-height: 1;  
-            text-transform: uppercase;  
-            text-shadow: 3px 3px 0px white;  
-            margin-bottom: 20px;  
-            text-align: center;  
-        }  
+        h1 { font-family: 'Baloo Da 2'; font-size: 3rem; line-height: 1; text-transform: uppercase; text-shadow: 3px 3px 0px white; margin-bottom: 20px; text-align: center; }  
   
-        /* HUD */  
-        .hud {  
-            position: absolute;  
-            top: 0; left: 0; width: 100%;  
-            padding: 15px;  
-            display: flex;  
-            justify-content: space-between;  
-            font-weight: bold;  
-            z-index: 20;  
-        }  
+        .hud { position: absolute; top: 0; left: 0; width: 100%; padding: 15px; display: flex; justify-content: space-between; font-weight: bold; z-index: 20; padding-right: 60px; }  
+        .score-box { background: white; border: 2px solid black; padding: 5px 10px; border-radius: 8px; box-shadow: 2px 2px 0 black; font-size: 0.9rem;}  
   
-        .score-box {  
-            background: white;  
-            border: 2px solid black;  
-            padding: 5px 12px;  
-            border-radius: 10px;  
-            box-shadow: 2px 2px 0 black;  
-        }  
-  
-        .big-btn {  
-            background: var(--secondary);  
-            color: white;  
-            font-size: 1.5rem;  
-            padding: 15px 40px;  
-            border: none;  
-            border-radius: 10px;  
-            font-family: 'Baloo Da 2';  
-            cursor: pointer;  
-            box-shadow: 5px 5px 0px rgba(255,255,255,0.5);  
-        }  
+        .big-btn { background: var(--secondary); color: white; font-size: 1.3rem; padding: 12px 35px; border: none; border-radius: 10px; font-family: 'Baloo Da 2'; cursor: pointer; box-shadow: 4px 4px 0px rgba(255,255,255,0.5); }  
   
     </style>  
 </head>  
@@ -197,58 +223,133 @@
   
 <div class="app">  
   
+    <!-- MENU BUTTON -->
+    <button class="menu-btn" onclick="Menu.toggle()">☰</button>
+
+    <!-- COMPACT SIDE MENU -->
+    <div id="menu-overlay" class="menu-overlay">
+        <div class="menu-close-x" onclick="Menu.toggle()">✕</div>
+        <h3 style="color:var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--primary);">মেনু</h3>
+        
+        <div class="menu-item" onclick="Menu.openPage('screen-about')">❓ কেন শিখব? (About)</div>
+        <div class="menu-item" onclick="Menu.openPage('screen-privacy')">🔒 Privacy Policy</div>
+        <div class="menu-item" onclick="Menu.openPage('screen-contact')">📞 Contact Us</div>
+        <div class="menu-item" onclick="Menu.openPage('screen-terms')">📄 Terms of Service</div>
+    </div>
+
+    <!-- START SCREEN -->
     <div id="screen-start" class="screen active">  
-        <div style="font-size: 4rem;">🚀</div>  
+        <div style="font-size: 3.5rem;">🚀</div>  
         <h1>জ্ঞান<br>সমুদ্র</h1>  
         <p style="font-weight: bold; margin-bottom: 30px;">অসীম প্রশ্নের ভাণ্ডার</p>  
         <button class="big-btn" onclick="Game.start()">খেলা শুরু</button>  
     </div>  
   
+    <!-- GAME SCREEN -->
     <div id="screen-game" class="screen hidden">  
         <div class="hud">  
             <div class="score-box">স্কোর: <span id="score">০</span></div>  
             <div class="score-box">লাইফ: <span id="lives">❤️❤️❤️</span></div>  
         </div>  
-  
         <div class="badge" id="category-badge">সাধারণ জ্ঞান</div>  
-  
         <div class="question-card">  
             <div id="q-text" class="question-text">প্রশ্ন লোড হচ্ছে...</div>  
         </div>  
-  
-        <div class="options-grid" id="options-area">  
-            </div>  
+        <div class="options-grid" id="options-area"></div>  
     </div>  
   
+    <!-- RESULT SCREEN -->
     <div id="screen-result" class="screen hidden">  
         <h1>খেলা শেষ!</h1>  
         <div class="question-card" style="flex-direction: column; min-height: auto;">  
             <p>আপনার স্কোর</p>  
-            <p id="final-score" style="font-size: 4rem; font-family: 'Baloo Da 2'; font-weight: bold;">০</p>  
+            <p id="final-score" style="font-size: 3.5rem; font-family: 'Baloo Da 2'; font-weight: bold;">০</p>  
         </div>  
         <button class="big-btn" onclick="Game.start()">আবার খেলুন</button>  
-    </div>  
+    </div>
+
+    <!-- ABOUT SCREEN -->
+    <div id="screen-about" class="screen hidden scrollable">
+        <button class="close-btn" onclick="Menu.closePage()">← ফিরে যান</button>
+        <div class="article-content">
+            <h2>সাধারণ জ্ঞান কেন জরুরি?</h2>
+            <p>নিজেকে আপডেট রাখতে "ইনফিনিটি কুইজ মাস্টার" খেলুন। এটি একই সাথে বিনোদন ও শিক্ষার মাধ্যম।</p>
+            <h3>১. মস্তিষ্কের কার্যক্ষমতা</h3>
+            <p>কুইজ খেলা মস্তিষ্কের ব্যায়াম হিসেবে কাজ করে, যা স্মৃতিশক্তি বাড়াতে সাহায্য করে।</p>
+            <h3>২. পরীক্ষার প্রস্তুতি</h3>
+            <p>বিসিএস ও চাকরির পরীক্ষার জন্য এই সাধারণ জ্ঞান ও গণিত অত্যন্ত সহায়ক।</p>
+            <h3>৩. আত্মবিশ্বাস</h3>
+            <p>সঠিক তথ্য জানা থাকলে আপনি যেকোনো আলোচনায় আত্মবিশ্বাসের সাথে অংশ নিতে পারবেন।</p>
+        </div>
+    </div>
+
+    <!-- PRIVACY POLICY SCREEN -->
+    <div id="screen-privacy" class="screen hidden scrollable">
+        <button class="close-btn" onclick="Menu.closePage()">← ফিরে যান</button>
+        <div class="article-content">
+            <h2>Privacy Policy</h2>
+            <p><strong>Last Updated: 2026</strong></p>
+            <p>We respect your privacy. This app uses Google AdSense to serve ads.</p>
+            <h3>Data Collection</h3>
+            <p>We do not collect personal data like names or emails directly. AdSense uses cookies to show relevant ads.</p>
+            <h3>Third-Party Ads</h3>
+            <p>Google may use information about your visits to this and other websites to provide advertisements about goods and services of interest to you.</p>
+        </div>
+    </div>
+
+    <!-- CONTACT SCREEN -->
+    <div id="screen-contact" class="screen hidden scrollable">
+        <button class="close-btn" onclick="Menu.closePage()">← ফিরে যান</button>
+        <div class="article-content">
+            <h2>Contact Us</h2>
+            <p>Have questions? Reach out to us!</p>
+            <h3>Email</h3>
+            <p>support@infinityquiz.com</p>
+            <h3>Address</h3>
+            <p>Dhaka, Bangladesh</p>
+        </div>
+    </div>
+    
+    <!-- TERMS SCREEN -->
+    <div id="screen-terms" class="screen hidden scrollable">
+        <button class="close-btn" onclick="Menu.closePage()">← ফিরে যান</button>
+        <div class="article-content">
+            <h2>Terms of Service</h2>
+            <p>By using this app, you agree to our terms. The content is for educational purposes.</p>
+        </div>
+    </div>
   
 </div>  
   
 <script>  
-/** * INFINITE QUIZ ENGINE  
- * This engine generates questions algorithmically to ensure variety and speed.  
- */  
-  
+/** * GAME & MENU LOGIC */
+
+const Menu = {
+    toggle: function() {
+        const overlay = document.getElementById('menu-overlay');
+        overlay.classList.toggle('open');
+    },
+    openPage: function(id) {
+        this.toggle(); // Close menu
+        document.querySelectorAll('.screen').forEach(s => {
+            s.classList.remove('active');
+            s.classList.add('hidden');
+        });
+        const target = document.getElementById(id);
+        target.classList.remove('hidden');
+        target.classList.add('active');
+    },
+    closePage: function() {
+        this.openPage('screen-start');
+    }
+};
+
 const Engine = {  
-    // Utility: Convert English numbers to Bangla  
     toBn: (n) => n.toString().replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]),  
-      
-    // Utility: Get random integer  
     rand: (min, max) => Math.floor(Math.random() * (max - min + 1)) + min,  
-      
-    // Utility: Shuffle array  
     shuffle: (arr) => arr.sort(() => Math.random() - 0.5),  
-  
-    // DATA: Massive Country List for Geography  
     countries: [  
-        {n:"বাংলাদেশ", c:"ঢাকা"}, {n:"ভারত", c:"নয়াদিল্লি"}, {n:"پاکستان", c:"ইসলামাবাদ"},  
+        {n:"বাংলাদেশ", c:"ঢাকা"}, {n:"ভারত", c:"নয়াদিল্লি"}, {n:"পাকিস্তান", c:"ইসলামাবাদ"},  
         {n:"সৌদি আরব", c:"রিয়াদ"}, {n:"ইরান", c:"তেহরান"}, {n:"ইরাক", c:"বাগদাদ"},  
         {n:"জাপান", c:"টোকিও"}, {n:"চীন", c:"বেইজিং"}, {n:"রাশিয়া", c:"মস্কো"},  
         {n:"যুক্তরাষ্ট্র", c:"ওয়াশিংটন ডিসি"}, {n:"যুক্তরাজ্য", c:"লন্ডন"}, {n:"ফ্রান্স", c:"প্যারিস"},  
@@ -258,8 +359,6 @@ const Engine = {
         {n:"ইন্দোনেশিয়া", c:"জাকার্তা"}, {n:"থাইল্যান্ড", c:"ব্যাংকক"}, {n:"নেপাল", c:"কাঠমান্ডু"},  
         {n:"ভুটান", c:"থিম্পু"}, {n:"শ্রীলঙ্কা", c:"শ্রী জয়াবর্ধনেপুরা কোট্টে"}, {n:"মালদ্বীপ", c:"মালে"}  
     ],  
-  
-    // DATA: Curated General Knowledge  
     gkDB: [  
         {q: "বাংলাদেশের জাতীয় কবি কে?", a: "কাজী নজরুল ইসলাম", w: ["রবীন্দ্রনাথ ঠাকুর", "জসীমউদ্দীন", "শামসুর রাহমান"]},  
         {q: "বিশ্বের বৃহত্তম ম্যানগ্রোভ বন কোনটি?", a: "সুন্দরবন", w: ["আমাজন", "ভাওয়াল বন", "মধুপুর বন"]},  
@@ -272,209 +371,95 @@ const Engine = {
         {q: "জাতীয় স্মৃতিসৌধের স্থপতি কে?", a: "মাইনুল হোসেন", w: ["হামিদুর রহমান", "শামীম সিকদার", "নিতুন কুণ্ডু"]},  
         {q: "কোনটি সার্চ ইঞ্জিন?", a: "গুগল", w: ["ফেসবুক", "হোয়াটসঅ্যাপ", "টিকটক"]}  
     ],  
-  
-    // GENERATOR 1: MATH (Infinite)  
     genMath: function() {  
         const ops = ['+', '-', '×'];  
         const op = ops[this.rand(0, 2)];  
         let n1 = this.rand(5, 50);  
         let n2 = this.rand(2, 20);  
         let ans, q;  
-  
         if(op === '+') { ans = n1 + n2; q = `${this.toBn(n1)} + ${this.toBn(n2)} = কত?`; }  
         else if(op === '-') {   
-            if(n1 < n2) [n1, n2] = [n2, n1]; // No negative result  
+            if(n1 < n2) [n1, n2] = [n2, n1]; 
             ans = n1 - n2; q = `${this.toBn(n1)} - ${this.toBn(n2)} = কত?`;   
         }  
         else {   
-            n1 = this.rand(2, 12); n2 = this.rand(2, 10); // Keep multiplication simple  
+            n1 = this.rand(2, 12); n2 = this.rand(2, 10); 
             ans = n1 * n2; q = `${this.toBn(n1)} × ${this.toBn(n2)} = কত?`;   
         }  
-  
-        // Generate wrong options  
         let opts = new Set([ans]);  
         while(opts.size < 4) {  
             let offset = this.rand(-10, 10);  
             let w = ans + offset;  
             if(w > 0 && w !== ans) opts.add(w);  
         }  
-  
-        return {  
-            cat: "গণিত",  
-            q: q,  
-            a: this.toBn(ans),  
-            opts: Array.from(opts).map(x => this.toBn(x))  
-        };  
+        return { cat: "গণিত", q: q, a: this.toBn(ans), opts: Array.from(opts).map(x => this.toBn(x)) };  
     },  
-  
-    // GENERATOR 2: GEOGRAPHY (Capital City)  
     genGeo: function() {  
         const item = this.countries[this.rand(0, this.countries.length - 1)];  
-        const isReverse = Math.random() > 0.5; // 50% chance asking Country, 50% Capital  
-  
+        const isReverse = Math.random() > 0.5;  
         let q, a, wrongs;  
-          
         if (isReverse) {  
-            q = `${item.c} কোন দেশের রাজধানী?`;  
-            a = item.n;  
-            wrongs = [];  
-            while(wrongs.length < 3) {  
-                let r = this.countries[this.rand(0, this.countries.length-1)].n;  
-                if(r !== a && !wrongs.includes(r)) wrongs.push(r);  
-            }  
+            q = `${item.c} কোন দেশের রাজধানী?`; a = item.n;  
+            wrongs = []; while(wrongs.length < 3) { let r = this.countries[this.rand(0, this.countries.length-1)].n; if(r !== a && !wrongs.includes(r)) wrongs.push(r); }  
         } else {  
-            q = `${item.n}-এর রাজধানীর নাম কী?`;  
-            a = item.c;  
-            wrongs = [];  
-            while(wrongs.length < 3) {  
-                let r = this.countries[this.rand(0, this.countries.length-1)].c;  
-                if(r !== a && !wrongs.includes(r)) wrongs.push(r);  
-            }  
+            q = `${item.n}-এর রাজধানীর নাম কী?`; a = item.c;  
+            wrongs = []; while(wrongs.length < 3) { let r = this.countries[this.rand(0, this.countries.length-1)].c; if(r !== a && !wrongs.includes(r)) wrongs.push(r); }  
         }  
-  
-        return {  
-            cat: "ভূগোল",  
-            q: q,  
-            a: a,  
-            opts: [...wrongs, a]  
-        };  
+        return { cat: "ভূগোল", q: q, a: a, opts: [...wrongs, a] };  
     },  
-  
-    // GENERATOR 3: LOGIC (Number Series)  
     genLogic: function() {  
-        const start = this.rand(2, 10);  
-        const gap = this.rand(2, 5);  
-        const seq = [start, start+gap, start+(gap*2), "?"];  
-        const ans = start + (gap*3);  
-          
-        // Wrongs  
-        let opts = new Set([ans]);  
-        while(opts.size < 4) {  
-            let w = ans + this.rand(-5, 5);  
-            if(w !== ans && w > 0) opts.add(w);  
-        }  
-  
-        return {  
-            cat: "বুদ্ধিমত্তা",  
-            q: `ধারাটির পরের সংখ্যা কত? \n ${this.toBn(start)}, ${this.toBn(start+gap)}, ${this.toBn(start+gap*2)}, ?`,  
-            a: this.toBn(ans),  
-            opts: Array.from(opts).map(x => this.toBn(x))  
-        };  
+        const start = this.rand(2, 10); const gap = this.rand(2, 5);  
+        const seq = [start, start+gap, start+(gap*2), "?"]; const ans = start + (gap*3);  
+        let opts = new Set([ans]); while(opts.size < 4) { let w = ans + this.rand(-5, 5); if(w !== ans && w > 0) opts.add(w); }  
+        return { cat: "বুদ্ধিমত্তা", q: `ধারাটির পরের সংখ্যা কত? \n ${this.toBn(start)}, ${this.toBn(start+gap)}, ${this.toBn(start+gap*2)}, ?`, a: this.toBn(ans), opts: Array.from(opts).map(x => this.toBn(x)) };  
     },  
-  
-    // GENERATOR 4: GENERAL KNOWLEDGE (Static DB)  
     genGK: function() {  
         const data = this.gkDB[this.rand(0, this.gkDB.length - 1)];  
-        return {  
-            cat: "সাধারণ জ্ঞান",  
-            q: data.q,  
-            a: data.a,  
-            opts: [...data.w, data.a]  
-        };  
+        return { cat: "সাধারণ জ্ঞান", q: data.q, a: data.a, opts: [...data.w, data.a] };  
     },  
-  
-    // MASTER MIXER  
     getQuestion: function() {  
-        const roll = Math.random();  
-        let qData;  
-        if(roll < 0.3) qData = this.genMath();      // 30% Math  
-        else if(roll < 0.5) qData = this.genGeo();  // 20% Geo  
-        else if(roll < 0.7) qData = this.genLogic();// 20% Logic  
-        else qData = this.genGK();                  // 30% GK  
-  
-        qData.opts = this.shuffle(qData.opts); // Shuffle options location  
-        return qData;  
+        const roll = Math.random(); let qData;  
+        if(roll < 0.3) qData = this.genMath(); else if(roll < 0.5) qData = this.genGeo(); else if(roll < 0.7) qData = this.genLogic(); else qData = this.genGK();  
+        qData.opts = this.shuffle(qData.opts); return qData;  
     }  
 };  
   
-/** * GAME CONTROLLER  
- */  
 const Game = {  
-    score: 0,  
-    lives: 3,  
-    active: false,  
-    currentData: null,  
-  
+    score: 0, lives: 3, active: false, currentData: null,  
     start: function() {  
-        this.score = 0;  
-        this.lives = 3;  
-        this.active = true;  
+        this.score = 0; this.lives = 3; this.active = true;  
         this.updateHUD();  
-        this.switchScreen('screen-game');  
-        this.nextTurn();  
+        document.getElementById('menu-overlay').classList.remove('open');
+        this.switchScreen('screen-game'); this.nextTurn();  
     },  
-  
     nextTurn: function() {  
         if(!this.active) return;  
-          
-        // Generate new question  
         this.currentData = Engine.getQuestion();  
-          
-        // Update UI  
         document.getElementById('category-badge').innerText = this.currentData.cat;  
         document.getElementById('q-text').innerText = this.currentData.q;  
-          
-        const grid = document.getElementById('options-area');  
-        grid.innerHTML = ''; // Clear old  
-  
+        const grid = document.getElementById('options-area'); grid.innerHTML = '';  
         this.currentData.opts.forEach(opt => {  
-            const btn = document.createElement('div');  
-            btn.className = 'opt-btn';  
-            btn.innerText = opt;  
-            btn.onclick = () => this.check(opt, btn);  
-            grid.appendChild(btn);  
+            const btn = document.createElement('div'); btn.className = 'opt-btn'; btn.innerText = opt; btn.onclick = () => this.check(opt, btn); grid.appendChild(btn);  
         });  
     },  
-  
     check: function(selected, btn) {  
-        // Prevent double clicking  
-        const all = document.querySelectorAll('.opt-btn');  
-        all.forEach(b => b.style.pointerEvents = 'none');  
-  
-        if(selected === this.currentData.a) {  
-            btn.classList.add('correct');  
-            this.score += 10;  
-        } else {  
-            btn.classList.add('wrong');  
-            this.lives--;  
-            // Highlight correct one  
-            all.forEach(b => {  
-                if(b.innerText === this.currentData.a) b.classList.add('correct');  
-            });  
-        }  
-  
+        const all = document.querySelectorAll('.opt-btn'); all.forEach(b => b.style.pointerEvents = 'none');  
+        if(selected === this.currentData.a) { btn.classList.add('correct'); this.score += 10; }  
+        else { btn.classList.add('wrong'); this.lives--; all.forEach(b => { if(b.innerText === this.currentData.a) b.classList.add('correct'); }); }  
         this.updateHUD();  
-  
-        setTimeout(() => {  
-            if(this.lives > 0) {  
-                this.nextTurn();  
-            } else {  
-                this.gameOver();  
-            }  
-        }, 1200);  
+        setTimeout(() => { if(this.lives > 0) this.nextTurn(); else this.gameOver(); }, 1200);  
     },  
-  
     updateHUD: function() {  
         document.getElementById('score').innerText = Engine.toBn(this.score);  
-        let hearts = "";  
-        for(let i=0; i<this.lives; i++) hearts += "❤️";  
+        let hearts = ""; for(let i=0; i<this.lives; i++) hearts += "❤️";  
         document.getElementById('lives').innerText = hearts;  
     },  
-  
     gameOver: function() {  
-        this.active = false;  
-        document.getElementById('final-score').innerText = Engine.toBn(this.score);  
-        this.switchScreen('screen-result');  
+        this.active = false; document.getElementById('final-score').innerText = Engine.toBn(this.score); this.switchScreen('screen-result');  
     },  
-  
     switchScreen: function(id) {  
-        document.querySelectorAll('.screen').forEach(s => {  
-            s.classList.remove('active');  
-            s.classList.add('hidden');  
-        });  
-        const target = document.getElementById(id);  
-        target.classList.remove('hidden');  
-        target.classList.add('active');  
+        document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.classList.add('hidden'); });  
+        const target = document.getElementById(id); target.classList.remove('hidden'); target.classList.add('active');  
     }  
 };  
   
